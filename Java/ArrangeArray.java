@@ -95,7 +95,7 @@ public class ArrangeArray {
 
         while (true) {
             System.out.print("Enter name: ");
-            name = input.nextLine().trim();
+            name = input.nextLine();
             if (name.isEmpty()) {
                 System.out.println("Name cannot be empty.");
                 continue;
@@ -109,7 +109,7 @@ public class ArrangeArray {
 
         while (true) {
             System.out.print("Enter age: ");
-            age = input.nextLine().trim();
+            age = input.nextLine();
             if (!isNumeric(age)) {
                 System.out.println("Invalid input. Age must be a number.");
                 continue;
@@ -137,20 +137,22 @@ public class ArrangeArray {
         while (true) {
             displayDepartmentalCourses();
             System.out.print("Enter course to add (must be valid): ");
-            String course = input.nextLine().trim();
+            String course = input.nextLine();
 
             if (!isValidDepartmentalCourse(course)) {
                 System.out.println("Invalid course. Please enter a course from the department list.");
                 continue;
             }
 
-            if (courses.stream().anyMatch(c -> c.equalsIgnoreCase(course))) {
-                System.out.println("Course already added.");
-            } else {
+           for (String c : courses) {
+    if (c.equalsIgnoreCase(course)) {
+       System.out.println("Student already registered for this course.");
+    }
+	 else {
                 courses.add(course);
                 System.out.println("Course added.");
             }
-
+	}
             if (!askToContinue(input, "Add another course? (yes/no): ")) {
                 break;
             }
@@ -161,13 +163,13 @@ public class ArrangeArray {
 
     public static void printList(ArrayList<String> list) {
     for (String item : list) {
-        System.out.println(item);
+        System.out.print(item);
     }
-}
+	}
 
-    private static void addCourseToStudentFlow(Scanner input) {
+    public static void addCourseToStudentFlow(Scanner input) {
         System.out.print("Enter student name to add course: ");
-        String studentName = input.nextLine().trim();
+        String studentName = input.nextLine();
 
         if (!studentNames.contains(studentName)) {
             System.out.println("Student not found.");
@@ -177,7 +179,7 @@ public class ArrangeArray {
         while (true) {
             displayDepartmentalCourses();
             System.out.print("Enter new course to add: ");
-            String newCourse = input.nextLine().trim();
+            String newCourse = input.nextLine();
 
             System.out.println(addCourseToStudent(studentName, newCourse));
 
@@ -187,9 +189,9 @@ public class ArrangeArray {
         }
     }
 
-    private static void updateStudentInfoFlow(Scanner input) {
+    public static void updateStudentInfoFlow(Scanner input) {
         System.out.print("Enter student name to update: ");
-        String stuName = input.nextLine().trim();
+        String stuName = input.nextLine();
 
         if (!studentNames.contains(stuName)) {
             System.out.println("Student not found.");
@@ -200,7 +202,7 @@ public class ArrangeArray {
 
         while (true) {
             System.out.print("Enter new age: ");
-            newAge = input.nextLine().trim();
+            newAge = input.nextLine();
             if (!isNumeric(newAge)) {
                 System.out.println("Invalid age. Must be a number.");
                 continue;
@@ -215,7 +217,7 @@ public class ArrangeArray {
 
         while (true) {
             System.out.print("Enter new address (format: Street, City, Zip): ");
-            newAddress = input.nextLine().trim();
+            newAddress = input.nextLine();
             String[] parts = newAddress.split(",");
             if (parts.length >= 3) {
                 break;
@@ -289,7 +291,7 @@ public class ArrangeArray {
         for (int i = 0; i < studentAddress.size(); i++) {
             String[] parts = studentAddress.get(i).split(",");
             if (parts.length >= 3) {
-                zipCodes.add(studentNames.get(i) + " Zip Code: " + parts[2].trim());
+                zipCodes.add(studentNames.get(i) + " Zip Code: " + parts[2]);
             } else {
                 zipCodes.add(studentNames.get(i) + " Zip Code: Not found");
             }
@@ -337,16 +339,19 @@ public class ArrangeArray {
         return false;
     }
 
-    public static boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) return false;
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
+   public static boolean isNumeric(String str) {
+    if (str == null || str.isEmpty()) return false;
+
+    for (int index = 0; index < str.length(); index++) {
+        char ch = str.charAt(index);
+        if (ch < '0' || ch > '9') {
             return false;
         }
     }
-
+    return true;
+	}
+	
+	
     public static String generateStudentId() {
         return String.format("S%04d", studentIdCounter++);
     }
