@@ -4,29 +4,35 @@ import java.util.Scanner;
 public class TypingSpeedTest {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
-     
-        String paragraph = generateRandomParagraph();
-        System.out.println("\nType the following paragraph:\n");
-        System.out.println(paragraph + "\n");
+    String paragraph = generateRandomParagraph();
+    System.out.println("\nType the following paragraph as fast as you can:\n");
+    System.out.println(paragraph + "\n");
 
-        
-        System.out.println("Press Enter when you're ready to start typing...");
-        scanner.nextLine();
+    System.out.println("Press EnterKey when you're ready to start typing...");
+    scanner.nextLine();
 
-        long startTime = System.currentTimeMillis();
-        String userInput = scanner.nextLine();
-        long endTime = System.currentTimeMillis();
+    long startTime = System.currentTimeMillis();
+    String userInput = scanner.nextLine();
+    long endTime = System.currentTimeMillis();
 
-        double timeInSeconds = (endTime - startTime) / 1000.0;
+    double timeInSeconds = (endTime - startTime) / 1000.0;
 
-        System.out.println("\n--- Typing Results ---");
-        System.out.printf("Time taken: %.2f seconds\n", timeInSeconds);
+    System.out.println("\n--- Typing Results ---");
+    System.out.printf("Time taken: %.2f seconds\n", timeInSeconds);
 
-        double accuracy = calculateTypingAccuracy(paragraph, userInput);
-        System.out.printf("Typing Accuracy: %.2f%%\n", accuracy);
-    }
+ int wordCount = userInput.split("\\s+").length;
+    double timeInMinutes = timeInSeconds / 60.0;
+    double wpm = wordCount / timeInMinutes;
+    System.out.printf("Words per Minute (WPM): %.2f\n", wpm);
+	
+	
+    double accuracy = calculateTypingAccuracy(paragraph, userInput);
+    System.out.printf("Typing Accuracy: %.2f%%\n", accuracy);
+
+    
+   }
 
     public static String generateRandomParagraph() {
         String[] sentences = {
@@ -42,6 +48,8 @@ public class TypingSpeedTest {
             "Birds chirped loudly in the early morning light."
         };
 
+	//System.out.println(sentences.getClass().getName());
+	
         int numberOfSentences = 3;
         StringBuilder paragraph = new StringBuilder();
         Random rand = new Random();
