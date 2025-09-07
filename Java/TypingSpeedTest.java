@@ -1,13 +1,34 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class RandomParagraphGenerator {
+public class TypingSpeedTest {
+
     public static void main(String[] args) {
-    
-    
-    
+        Scanner scanner = new Scanner(System.in);
+
+     
+        String paragraph = generateRandomParagraph();
+        System.out.println("\nType the following paragraph:\n");
+        System.out.println(paragraph + "\n");
+
+        
+        System.out.println("Press Enter when you're ready to start typing...");
+        scanner.nextLine();
+
+        long startTime = System.currentTimeMillis();
+        String userInput = scanner.nextLine();
+        long endTime = System.currentTimeMillis();
+
+        double timeInSeconds = (endTime - startTime) / 1000.0;
+
+        System.out.println("\n--- Typing Results ---");
+        System.out.printf("Time taken: %.2f seconds\n", timeInSeconds);
+
+        double accuracy = calculateTypingAccuracy(paragraph, userInput);
+        System.out.printf("Typing Accuracy: %.2f%%\n", accuracy);
     }
-    
+
+    public static String generateRandomParagraph() {
         String[] sentences = {
             "The sun sets behind the hills of Kano.",
             "Children laugh and run across the dusty road.",
@@ -21,7 +42,7 @@ public class RandomParagraphGenerator {
             "Birds chirped loudly in the early morning light."
         };
 
-        int numberOfSentences = 5; // Number of sentences in the paragraph
+        int numberOfSentences = 3;
         StringBuilder paragraph = new StringBuilder();
         Random rand = new Random();
 
@@ -30,7 +51,21 @@ public class RandomParagraphGenerator {
             paragraph.append(sentences[index]).append(" ");
         }
 
-        System.out.println("Random Paragraph:\n");
-        System.out.println(paragraph.toString().trim());
+        return paragraph.toString();
+    }
+
+    public static double calculateTypingAccuracy(String original, String typed) {
+        int correctChars = 0;
+        int minLength = Math.min(original.length(), typed.length());
+
+        for (int index = 0; index < minLength; index++) {
+            if (original.charAt(index) == typed.charAt(index)) {
+                correctChars++;
+            }
+        }
+
+        
+        return ((double) correctChars / original.length()) * 100;
     }
 }
+
